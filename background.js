@@ -49,9 +49,15 @@ function isYoutubeVideoPage(url) {
 // Running the forecast ////////////////////////////////////////////////////////////////
 chrome.runtime.onMessage.addListener((popupRequest, sender, popupResponse) => {
   if (popupRequest.message === "startForecast") {
-    fetchUploadsPlaylistId()
+    chrome.storage.local.get(["videoId"], function (storage) {
+      fetchChannelIdAndTitleFromVideoId(storage.videoId)
+        .then((channelIdAndTitle) => {
+          return fetchUploadsPlaylistIdFromChannelId(
+            channelIdAndTitle.channelId
+          );
+        })
       .then((uploadsPlaylistId) => {
-        return fetchUploads(uploadsPlaylistId);
+          return fetchUploadsFromUploadsPlaylistId(uploadsPlaylistId);
       })
       .then((uploads) => {
         let uploadDatetimes = uploads.map((upload) => upload.snippet.title);
@@ -65,22 +71,35 @@ chrome.runtime.onMessage.addListener((popupRequest, sender, popupResponse) => {
       .catch((error) => {
         popupResponse({ result: "Error: " + error });
       });
+    });
   }
   return true;
 });
 
-async function fetchUploadsPlaylistId() {
-  let response = await fetch(buildChannelsApiCall());
+async function fetchChannelIdAndTitleFromVideoId(videoId) {
+  let response = await fetch(buildVideosApiCall(videoId));
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   } else {
     let jsonResponse = await response.json();
-    // Assuming only the first channel in list is relevant
+    return {
+      channelId: jsonResponse.items[0].snippet.channelId,
+      channelTitle: jsonResponse.items[0].snippet.channelTitle,
+    };
+  }
+}
+
+async function fetchUploadsPlaylistIdFromChannelId(channelId) {
+  let response = await fetch(buildChannelsApiCall(channelId));
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  } else {
+    let jsonResponse = await response.json();
     return jsonResponse.items[0].contentDetails.relatedPlaylists.uploads;
   }
 }
 
-async function fetchUploads(uploadsPlaylistId) {
+async function fetchUploadsFromUploadsPlaylistId(uploadsPlaylistId) {
   let response = await fetch(buildPlaylistItemsApiCall(uploadsPlaylistId));
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
@@ -90,10 +109,18 @@ async function fetchUploads(uploadsPlaylistId) {
   }
 }
 
-function buildChannelsApiCall() {
+function buildVideosApiCall(videoId) {
+  const apiKey = "&key=" + getGoogleApiKey();
+  const apiUrl = "https://youtube.googleapis.com/youtube/v3/videos";
+  const apiOptions = "?part=snippet&id=" + videoId;
+  const apiCall = apiUrl + apiOptions + apiKey;
+  return apiCall;
+}
+
+function buildChannelsApiCall(channelId) {
   const apiKey = "&key=" + getGoogleApiKey();
   const apiUrl = "https://youtube.googleapis.com/youtube/v3/channels";
-  const apiOptions = "?part=contentDetails&forUsername=tomscott";
+  const apiOptions = "?part=contentDetails&id=" + channelId;
   const apiCall = apiUrl + apiOptions + apiKey;
   return apiCall;
 }
