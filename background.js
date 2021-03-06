@@ -1,3 +1,8 @@
+// Google API Key ////////////////////////////////////////////////////////////////
+function getGoogleApiKey() {
+  return "[API_KEY]";
+}
+
 // Checking the current page ////////////////////////////////////////////////////////////////
 chrome.tabs.onActivated.addListener((activeInfo) => {
   chrome.tabs.get(activeInfo.tabId, (tab) => {
@@ -101,8 +106,4 @@ function buildPlaylistItemsApiCall(uploadsPlaylistId) {
     uploadsPlaylistId;
   const apiCall = apiUrl + apiOptions + apiKey;
   return apiCall;
-}
-
-function getGoogleApiKey() {
-  return "[API_KEY]";
 }
