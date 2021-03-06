@@ -16,7 +16,27 @@ document.getElementById("forecast").addEventListener("click", () => {
 
   // Start Forecasting
   chrome.runtime.sendMessage({ message: "startForecast" }, (response) => {
-    document.getElementById("channelTitle").innerHTML = response.channelTitle;
-    document.getElementById("result").innerHTML = response.result;
+    if (response.successful) {
+      let channelTitle = document.createElement("SPAN");
+      channelTitle.style.color = "blue";
+      channelTitle.innerHTML = response.channelTitle;
+
+      let dummyForecastDate = document.createElement("SPAN");
+      dummyForecastDate.style.color = "green";
+      dummyForecastDate.innerHTML = "06/03/2021";
+
+      let startText = document.createTextNode(
+        "Forecasted next upload date for "
+      );
+      let endText = document.createTextNode(" is on: ");
+
+      document.getElementById("result").innerHTML = "";
+      document.getElementById("result").appendChild(startText);
+      document.getElementById("result").appendChild(channelTitle);
+      document.getElementById("result").appendChild(endText);
+      document.getElementById("result").appendChild(dummyForecastDate);
+    } else {
+      document.getElementById("result").innerHTML = response.error;
+    }
   });
 });

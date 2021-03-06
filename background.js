@@ -69,12 +69,12 @@ chrome.runtime.onMessage.addListener((popupRequest, sender, popupResponse) => {
       })
       .then((uploadDatetimes) => {
           popupResponse({
-            result: "Got uploads successfully!",
+            successful: true,
             channelTitle: channelTitle,
           });
       })
       .catch((error) => {
-        popupResponse({ result: "Error: " + error });
+          popupResponse({ successful: false, error: "Error: " + error });
       });
     });
   }
