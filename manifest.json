@@ -1,0 +1,25 @@
+{
+  "name": "Youtube Forecaster",
+  "description": "When on the webpage for a Youtube Channel, the Youtube Forecaster will estimate the date/time of the next upload.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["tabs", "declarativeContent", "storage", "activeTab"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "images/youtube.png",
+      "32": "images/youtube.png",
+      "48": "images/youtube.png",
+      "128": "images/youtube.png"
+    }
+  },
+  "icons": {
+    "16": "images/youtube.png",
+    "32": "images/youtube.png",
+    "48": "images/youtube.png",
+    "128": "images/youtube.png"
+  }
+}
