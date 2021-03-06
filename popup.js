@@ -1,6 +1,6 @@
 // Checking if the extension should be active on the current page
-chrome.storage.local.get(["allowForecasting"], function (result) {
-  if (result.allowForecasting) {
+chrome.storage.local.get(["allowForecasting"], function (storage) {
+  if (storage.allowForecasting) {
     document.getElementById("forecast").style.display = "";
     document.getElementById("result").innerHTML = "";
   } else {
