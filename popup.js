@@ -5,8 +5,7 @@ chrome.storage.local.get(["allowForecasting"], function (result) {
     document.getElementById("result").innerHTML = "";
   } else {
     document.getElementById("forecast").style.display = "none";
-    document.getElementById("result").innerHTML =
-      "Go to a Youtube Channel page";
+    document.getElementById("result").innerHTML = "Go to a Youtube Video page";
   }
 });
 

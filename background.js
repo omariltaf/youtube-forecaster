@@ -25,14 +25,19 @@ chrome.windows.onFocusChanged.addListener((windowId) => {
 });
 
 function setForecastingPermission(url) {
-  let validPageToForecastOn = isYoutubeChannelPage(url);
+  let validPageToForecastOn = isYoutubeVideoPage(url);
+  let videoId;
+  if (validPageToForecastOn) {
+    videoId = new URL(url).searchParams.get("v");
+  }
   chrome.storage.local.set({
     allowForecasting: validPageToForecastOn,
+    videoId: videoId,
   });
 }
 
-function isYoutubeChannelPage(url) {
-  const urlsToMatch = /www.youtube.com\/c\/|www.youtube.com\/channel\/|www.youtube.com\/user\//;
+function isYoutubeVideoPage(url) {
+  const urlsToMatch = /www.youtube.com\/watch/;
   return urlsToMatch.test(url);
 }
 
@@ -99,5 +104,5 @@ function buildPlaylistItemsApiCall(uploadsPlaylistId) {
 }
 
 function getGoogleApiKey() {
-  return "[API_KEY]]";
+  return "[API_KEY]";
 }
