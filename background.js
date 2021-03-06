@@ -50,8 +50,10 @@ function isYoutubeVideoPage(url) {
 chrome.runtime.onMessage.addListener((popupRequest, sender, popupResponse) => {
   if (popupRequest.message === "startForecast") {
     chrome.storage.local.get(["videoId"], function (storage) {
+      let channelTitle;
       fetchChannelIdAndTitleFromVideoId(storage.videoId)
         .then((channelIdAndTitle) => {
+          channelTitle = channelIdAndTitle.channelTitle;
           return fetchUploadsPlaylistIdFromChannelId(
             channelIdAndTitle.channelId
           );
@@ -66,7 +68,10 @@ chrome.runtime.onMessage.addListener((popupRequest, sender, popupResponse) => {
         });
       })
       .then((uploadDatetimes) => {
-        popupResponse({ result: "Got uploads successfully!" });
+          popupResponse({
+            result: "Got uploads successfully!",
+            channelTitle: channelTitle,
+          });
       })
       .catch((error) => {
         popupResponse({ result: "Error: " + error });

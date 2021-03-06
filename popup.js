@@ -16,6 +16,7 @@ document.getElementById("forecast").addEventListener("click", () => {
 
   // Start Forecasting
   chrome.runtime.sendMessage({ message: "startForecast" }, (response) => {
+    document.getElementById("channelTitle").innerHTML = response.channelTitle;
     document.getElementById("result").innerHTML = response.result;
   });
 });
