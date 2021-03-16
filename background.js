@@ -62,7 +62,10 @@ chrome.runtime.onMessage.addListener((popupRequest, sender, popupResponse) => {
           return fetchUploadsFromUploadsPlaylistId(uploadsPlaylistId);
       })
       .then((uploads) => {
-        let uploadDatetimes = uploads.map((upload) => upload.snippet.title);
+          // let uploadDatetimes = uploads.map((upload) => upload.snippet.title);
+          let uploadDatetimes = uploads.map(
+            (upload) => upload.contentDetails.videoPublishedAt
+          );
         uploadDatetimes.forEach((uploadDatetime) => {
           console.log(uploadDatetime);
         });
@@ -71,6 +74,7 @@ chrome.runtime.onMessage.addListener((popupRequest, sender, popupResponse) => {
           popupResponse({
             successful: true,
             channelTitle: channelTitle,
+            forecast: null,
           });
       })
       .catch((error) => {
@@ -134,7 +138,7 @@ function buildPlaylistItemsApiCall(uploadsPlaylistId) {
   const apiKey = "&key=" + getGoogleApiKey();
   const apiUrl = "https://youtube.googleapis.com/youtube/v3/playlistItems";
   const apiOptions =
-    "?part=contentDetails%2Csnippet&maxResults=5&playlistId=" +
+    "?part=contentDetails%2Csnippet&maxResults=50&playlistId=" +
     uploadsPlaylistId;
   const apiCall = apiUrl + apiOptions + apiKey;
   return apiCall;
