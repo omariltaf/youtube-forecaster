@@ -66,11 +66,9 @@ chrome.runtime.onMessage.addListener((popupRequest, sender, popupResponse) => {
           let uploadDatetimes = uploads.map(
             (upload) => upload.contentDetails.videoPublishedAt
           );
-        uploadDatetimes.forEach((uploadDatetime) => {
-          console.log(uploadDatetime);
-        });
+          return determineForecast(uploadDatetimes);
       })
-      .then((uploadDatetimes) => {
+        .then((forecast) => {
           popupResponse({
             successful: true,
             channelTitle: channelTitle,
@@ -142,4 +140,11 @@ function buildPlaylistItemsApiCall(uploadsPlaylistId) {
     uploadsPlaylistId;
   const apiCall = apiUrl + apiOptions + apiKey;
   return apiCall;
+}
+
+// Determine the forecast ////////////////////////////////////////////////////////////
+function determineForecast(uploadDatetimes) {
+  uploadDatetimes.forEach((uploadDatetime) => {
+    console.log(uploadDatetime);
+  });
 }
