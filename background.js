@@ -67,7 +67,13 @@ chrome.runtime.onMessage.addListener((popupRequest, sender, popupResponse) => {
           let uploadDatetimeStrings = uploads.map(
             (upload) => upload.contentDetails.videoPublishedAt
           );
-          return determineForecast(uploadDatetimeStrings);
+          // uploadDatetimeStrings.forEach((uploadDatetimeString) => {
+          //   console.log(uploadDatetimeString);
+          // });
+          let uploadDatetimes = uploadDatetimeStrings.map(
+            (datetimeString) => new Date(datetimeString)
+          );
+          return determineForecast(uploadDatetimes);
         })
         .then((forecast) => {
           popupResponse({
@@ -144,8 +150,48 @@ function buildPlaylistItemsApiCall(uploadsPlaylistId) {
 }
 
 // Determine the forecast ////////////////////////////////////////////////////////////
-function determineForecast(uploadDatetimeStrings) {
-  uploadDatetimeStrings.forEach((uploadDatetimeString) => {
-    console.log(uploadDatetimeString);
+function determineForecast(uploadDatetimes) {
+  let uploadDays = new Map();
+  let uploadHours = new Map();
+  uploadDatetimes.forEach((uploadDatetime) => {
+    incrementUploadDaysMap(uploadDays, getDayOfWeek(uploadDatetime.getDay()));
+    incrementUploadHoursMap(uploadHours, uploadDatetime.getHours());
   });
+  uploadDays.forEach((count, day) => {
+    console.log(day + " -> " + count);
+  });
+  uploadHours.forEach((count, hour) => {
+    console.log(hour + " -> " + count);
+  });
+}
+
+function incrementUploadDaysMap(uploadDays, day) {
+  if (!uploadDays.has(day)) {
+    uploadDays.set(day, 1);
+  } else {
+    let count = uploadDays.get(day);
+    uploadDays.set(day, count + 1);
+  }
+}
+
+function incrementUploadHoursMap(uploadHours, hour) {
+  if (!uploadHours.has(hour)) {
+    uploadHours.set(hour, 1);
+  } else {
+    let count = uploadHours.get(hour);
+    uploadHours.set(hour, count + 1);
+  }
+}
+
+function getDayOfWeek(dayIndex) {
+  let orderedDaysOfWeek = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  return orderedDaysOfWeek[dayIndex];
 }
