@@ -58,26 +58,27 @@ chrome.runtime.onMessage.addListener((popupRequest, sender, popupResponse) => {
             channelIdAndTitle.channelId
           );
         })
-      .then((uploadsPlaylistId) => {
+        .then((uploadsPlaylistId) => {
           return fetchUploadsFromUploadsPlaylistId(uploadsPlaylistId);
-      })
-      .then((uploads) => {
+        })
+        .then((uploads) => {
+          //do forecasting stuff here abouts
           // let uploadDatetimes = uploads.map((upload) => upload.snippet.title);
-          let uploadDatetimes = uploads.map(
+          let uploadDatetimeStrings = uploads.map(
             (upload) => upload.contentDetails.videoPublishedAt
           );
-          return determineForecast(uploadDatetimes);
-      })
+          return determineForecast(uploadDatetimeStrings);
+        })
         .then((forecast) => {
           popupResponse({
             successful: true,
             channelTitle: channelTitle,
             forecast: null,
           });
-      })
-      .catch((error) => {
+        })
+        .catch((error) => {
           popupResponse({ successful: false, error: "Error: " + error });
-      });
+        });
     });
   }
   return true;
@@ -143,8 +144,8 @@ function buildPlaylistItemsApiCall(uploadsPlaylistId) {
 }
 
 // Determine the forecast ////////////////////////////////////////////////////////////
-function determineForecast(uploadDatetimes) {
-  uploadDatetimes.forEach((uploadDatetime) => {
-    console.log(uploadDatetime);
+function determineForecast(uploadDatetimeStrings) {
+  uploadDatetimeStrings.forEach((uploadDatetimeString) => {
+    console.log(uploadDatetimeString);
   });
 }
