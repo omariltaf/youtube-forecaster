@@ -168,10 +168,16 @@ function determineForecast(uploadDatetimes) {
     incrementUploadDaysMap(uploadDays, getDayOfWeek(uploadDatetime.getDay()));
     incrementUploadHoursMap(uploadHours, uploadDatetime.getHours());
   });
-  uploadDays.forEach((count, day) => {
+  let sortedUploadDays = new Map(
+    [...uploadDays.entries()].sort((a, b) => b[1] - a[1])
+  );
+  let sortedUploadHours = new Map(
+    [...uploadHours.entries()].sort((a, b) => b[1] - a[1])
+  );
+  sortedUploadDays.forEach((count, day) => {
     console.log(`${count} uploads on ${day}s`);
   });
-  uploadHours.forEach((count, hour) => {
+  sortedUploadHours.forEach((count, hour) => {
     console.log(`${count} uploads at hour: ${hour}`);
   });
 }
