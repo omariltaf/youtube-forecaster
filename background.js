@@ -62,18 +62,15 @@ chrome.runtime.onMessage.addListener((popupRequest, sender, popupResponse) => {
           return fetchUploadsFromUploadsPlaylistId(uploadsPlaylistId);
         })
         .then((uploads) => {
-          //do forecasting stuff here abouts
-          // let uploadDatetimes = uploads.map((upload) => upload.snippet.title);
-          let uploadDatetimeStrings = uploads.map(
-            (upload) => upload.contentDetails.videoPublishedAt
+          let uploadDatetimes = uploads.map(
+            (upload) => new Date(upload.contentDetails.videoPublishedAt)
           );
-          // uploadDatetimeStrings.forEach((uploadDatetimeString) => {
-          //   console.log(uploadDatetimeString);
-          // });
-          let uploadDatetimes = uploadDatetimeStrings.map(
-            (datetimeString) => new Date(datetimeString)
+
+          let uploadDatetimesInRange = getUploadDatetimesInRange(
+            uploadDatetimes
           );
-          return determineForecast(uploadDatetimes);
+
+          return determineForecast(uploadDatetimesInRange);
         })
         .then((forecast) => {
           popupResponse({
@@ -83,12 +80,26 @@ chrome.runtime.onMessage.addListener((popupRequest, sender, popupResponse) => {
           });
         })
         .catch((error) => {
-          popupResponse({ successful: false, error: "Error: " + error });
+          popupResponse({ successful: false, error: error.toString() });
         });
     });
   }
   return true;
 });
+
+function getUploadDatetimesInRange(uploadDatetimes) {
+  const rangeOfMonths = 3;
+  let cutoff = new Date();
+  cutoff.setMonth(cutoff.getMonth() - rangeOfMonths);
+
+  let uploadDatetimesInRange = uploadDatetimes.filter(
+    (datetime) => datetime > cutoff
+  );
+  if (uploadDatetimesInRange.length === 0) {
+    throw new Error("Forecasting error! No uploads found within range");
+  }
+  return uploadDatetimesInRange;
+}
 
 async function fetchChannelIdAndTitleFromVideoId(videoId) {
   let response = await fetch(buildVideosApiCall(videoId));
