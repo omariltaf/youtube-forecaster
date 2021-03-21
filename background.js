@@ -158,10 +158,10 @@ function determineForecast(uploadDatetimes) {
     incrementUploadHoursMap(uploadHours, uploadDatetime.getHours());
   });
   uploadDays.forEach((count, day) => {
-    console.log(day + " -> " + count);
+    console.log(`${count} uploads on ${day}s`);
   });
   uploadHours.forEach((count, hour) => {
-    console.log(hour + " -> " + count);
+    console.log(`${count} uploads at hour: ${hour}`);
   });
 }
 
