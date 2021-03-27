@@ -10,16 +10,16 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "images/youtube.png",
-      "32": "images/youtube.png",
-      "48": "images/youtube.png",
-      "128": "images/youtube.png"
+      "16": "images/youtube-forecaster.png",
+      "32": "images/youtube-forecaster.png",
+      "48": "images/youtube-forecaster.png",
+      "128": "images/youtube-forecaster.png"
     }
   },
   "icons": {
-    "16": "images/youtube.png",
-    "32": "images/youtube.png",
-    "48": "images/youtube.png",
-    "128": "images/youtube.png"
+    "16": "images/youtube-forecaster.png",
+    "32": "images/youtube-forecaster.png",
+    "48": "images/youtube-forecaster.png",
+    "128": "images/youtube-forecaster.png"
   }
 }
