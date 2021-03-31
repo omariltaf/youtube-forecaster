@@ -88,7 +88,7 @@ chrome.runtime.onMessage.addListener((popupRequest, sender, popupResponse) => {
 });
 
 function getUploadDatetimesInRange(uploadDatetimes) {
-  const rangeOfMonths = 3;
+  const rangeOfMonths = 12;
   let cutoff = new Date();
   cutoff.setMonth(cutoff.getMonth() - rangeOfMonths);
 
