@@ -76,7 +76,7 @@ chrome.runtime.onMessage.addListener((popupRequest, sender, popupResponse) => {
           popupResponse({
             successful: true,
             channelTitle: channelTitle,
-            forecast: null,
+            forecast: forecast,
           });
         })
         .catch((error) => {
@@ -164,6 +164,7 @@ function buildPlaylistItemsApiCall(uploadsPlaylistId) {
 function determineForecast(uploadDatetimes) {
   let uploadDays = new Map();
   let uploadHours = new Map();
+  let numberOfUploads = uploadDatetimes.length;
   uploadDatetimes.forEach((uploadDatetime) => {
     incrementUploadDaysMap(uploadDays, getDayOfWeek(uploadDatetime.getDay()));
     incrementUploadHoursMap(uploadHours, uploadDatetime.getHours());
@@ -174,12 +175,33 @@ function determineForecast(uploadDatetimes) {
   let sortedUploadHours = new Map(
     [...uploadHours.entries()].sort((a, b) => b[1] - a[1])
   );
+
   sortedUploadDays.forEach((count, day) => {
     console.log(`${count} uploads on ${day}s`);
   });
   sortedUploadHours.forEach((count, hour) => {
     console.log(`${count} uploads at hour: ${hour}`);
   });
+
+  let mostFrequentDays = getMostFrequent(numberOfUploads, sortedUploadDays);
+  let mostFrequentHours = getMostFrequent(numberOfUploads, sortedUploadHours);
+
+  console.log(mostFrequentDays);
+  console.log(mostFrequentHours);
+
+  return { days: mostFrequentDays, hours: mostFrequentHours };
+}
+
+function getMostFrequent(numberOfUploads, sortedValues) {
+  let mostFrequentValues = [];
+  let cutoffThreshold = numberOfUploads / 2;
+  console.log("Threshold=" + cutoffThreshold);
+  sortedValues.forEach((count, value) => {
+    if (count >= cutoffThreshold) {
+      mostFrequentValues.push(value);
+    }
+  });
+  return mostFrequentValues;
 }
 
 function incrementUploadDaysMap(uploadDays, day) {
