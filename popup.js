@@ -31,10 +31,10 @@ document.getElementById("doForecast").addEventListener("click", () => {
       let endText = document.createTextNode(" is on: ");
 
       document.getElementById("status").innerHTML = "";
-      document.getElementById("status").appendChild(startText);
       document.getElementById("status").appendChild(channelTitle);
-      document.getElementById("status").appendChild(endText);
-      document.getElementById("status").appendChild(dummyForecastDate);
+
+      document.getElementById("forecastInner").innerHTML =
+        "Most frequent upload days: " + response.forecast.days;
     } else {
       document.getElementById("status").innerHTML = response.error;
     }
