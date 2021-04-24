@@ -1,23 +1,34 @@
 body {
-  background-color: white;
+  background-color: whitesmoke;
 }
 
 #title img {
-  max-width: 300px;
+  max-width: 250px;
 }
 
-#forecastOuter {
-  height: 300px;
-  background-color: lightblue;
-  border-radius: 5%;
-  padding: 10px 20px;
-  text-align: center;
-}
-
-#forecastInner {
-  height: 200px;
+.buttonBlock {
+  display: block;
+  width: 250px;
+  border: none;
   background-color: lightcoral;
-  border-radius: 5%;
-  padding: 20px;
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
   text-align: center;
+  border-radius: 5px;
+  margin: 10px;
+}
+
+.buttonBlock:hover {
+  background-color: #fb0404;
+  color: black;
+}
+
+#forecastCard {
+  height: fit-content;
+  background-color: white;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  margin: 10px;
 }
