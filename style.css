@@ -1,5 +1,7 @@
 body {
   background-color: whitesmoke;
+  margin: 0;
+  padding: 0 10px 10px 10px;
 }
 
 #title img {
@@ -10,14 +12,12 @@ body {
   display: block;
   width: 250px;
   border: none;
-  border-color: lightcoral;
   background-color: white;
   padding: 10px;
   font-size: 14px;
   cursor: pointer;
   text-align: center;
   border-radius: 5px;
-  margin: 10px;
 }
 
 .buttonBlock:hover {
@@ -31,5 +31,4 @@ body {
   border-radius: 5px;
   padding: 10px;
   text-align: center;
-  margin: 10px;
 }
