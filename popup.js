@@ -12,13 +12,15 @@ chrome.storage.local.get(["allowForecasting"], function (storage) {
 
 // Logic for button
 document.getElementById("forecastButton").addEventListener("click", () => {
-  document.getElementById("status").innerHTML = "Forecasting...";
   hideForecastButton();
-  showForecastCard();
-  // document.getElementById("forecastButton").classList.toggle("transform-active");
+  showLoader();
+  setTimeout(startForecast, 2000);
+});
 
-  // Start Forecasting
+function startForecast() {
   chrome.runtime.sendMessage({ message: "startForecast" }, (response) => {
+    hideLoader();
+    showForecastCard();
     if (response.successful) {
       let channelTitle = document.createElement("SPAN");
       channelTitle.style.color = "blue";
@@ -42,7 +44,7 @@ document.getElementById("forecastButton").addEventListener("click", () => {
       document.getElementById("status").innerHTML = response.error;
     }
   });
-});
+}
 
 function hideForecastButton() {
   document.getElementById("forecastButton").style.display = "none";
@@ -50,6 +52,14 @@ function hideForecastButton() {
 
 function showForecastButton() {
   document.getElementById("forecastButton").style.display = "";
+}
+
+function hideLoader() {
+  document.getElementById("forecastLoader").style.display = "none";
+}
+
+function showLoader() {
+  document.getElementById("forecastLoader").style.display = "block";
 }
 
 function hideForecastCard() {
