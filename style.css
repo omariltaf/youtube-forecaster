@@ -10,7 +10,8 @@ body {
   display: block;
   width: 250px;
   border: none;
-  background-color: lightcoral;
+  border-color: lightcoral;
+  background-color: white;
   padding: 10px;
   font-size: 14px;
   cursor: pointer;
@@ -20,7 +21,7 @@ body {
 }
 
 .buttonBlock:hover {
-  background-color: #fb0404;
+  background-color: lightcoral;
   color: black;
 }
 
