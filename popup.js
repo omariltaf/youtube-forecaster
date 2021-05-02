@@ -6,8 +6,7 @@ chrome.storage.local.get(["allowForecasting"], function (storage) {
   } else {
     hideForecastButton();
     showForecastCard();
-    document.getElementById("forecastCard").innerHTML =
-      "Go to a Youtube Video page";
+    document.getElementById("status").innerHTML = "Go to a Youtube Video page";
   }
 });
 
@@ -34,11 +33,11 @@ document.getElementById("forecastButton").addEventListener("click", () => {
       );
       let endText = document.createTextNode(" is on: ");
 
-      document.getElementById("status").innerHTML = "";
-      document.getElementById("status").appendChild(channelTitle);
+      document.getElementById("status").innerHTML = response.channelTitle;
+      // document.getElementById("status").appendChild(channelTitle);
 
-      document.getElementById("forecastCard").innerHTML =
-        "Most frequent upload days: " + response.forecast.days;
+      // document.getElementById("forecastCard").innerHTML =
+      //   "Most frequent upload days: " + response.forecast.days;
     } else {
       document.getElementById("status").innerHTML = response.error;
     }
