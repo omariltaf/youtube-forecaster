@@ -64,3 +64,34 @@ body {
   padding: 10px;
   text-align: center;
 }
+
+.pillList {
+  list-style-type: none;
+  margin: 5px 0 10px 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.pillList li {
+  display: inline-block;
+  font-size: 10px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 20px;
+  padding: 5px 10px;
+  margin-top: 5px;
+  color: white;
+  background-color: lightseagreen;
+}
+
+h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+hr {
+  margin: 10px;
+  border: 0.5px solid whitesmoke;
+  border-radius: 10px;
+}

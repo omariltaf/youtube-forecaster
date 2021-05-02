@@ -47,8 +47,13 @@ function startForecast() {
 }
 
 function outputForecastResults(response) {
-  document.getElementById("forecastDisplay").textContent =
-    response.channelTitle;
+  document.getElementById("forecastResults").prepend(response.channelTitle);
+  let newlistitem = document.createElement("LI");
+  newlistitem.textContent = "biglol";
+  document.getElementById("forecastDisplay").appendChild(newlistitem);
+  let newlistitem2 = document.createElement("LI");
+  newlistitem2.textContent = "biglofdsl";
+  document.getElementById("forecastDisplay").appendChild(newlistitem2);
 }
 
 function outputForecastMessages(forecastMessage) {
