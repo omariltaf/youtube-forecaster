@@ -23,7 +23,7 @@ body {
   font-weight: inherit;
   display: block;
   width: 250px;
-  border: none;
+  border: 1px solid lightgray;
   background-color: white;
   padding: 10px;
   cursor: pointer;
